@@ -33,7 +33,9 @@ def add_payment(store: str, amount: int) -> bool:
 
     return True
 
-
+# parse currency from what frontend sends to int
+def parse_currency(currency: str) -> int:
+    pass
 
 # Query the date range from database
 # get string with dates, process into datetime objects, call query_date(from, to) from db_handler, return total amount
