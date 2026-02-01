@@ -61,7 +61,6 @@ def configure_monthly_allowance(new_allowance: int):
     pass
 
 # ToDo: add calculation of available spending, add endpoint to configure (do I calculate backend or frontend?)
-# ToDo: upd requirements
 
 
 # ToDo: refactor to concurrency instead of asyncio
