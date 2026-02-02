@@ -2,8 +2,8 @@ import common
 import pymongo
 from check import Check
 from dotenv import get_key
+from datetime import datetime
 from urllib.parse import quote_plus
-from datetime import datetime, timedelta
 
 dotenv_path = common.dotenv_path
 uri = "mongodb://%s:%s@%s" % (quote_plus(get_key(dotenv_path, "MONGO_USR")), quote_plus(get_key(dotenv_path, "MONGO_PWD")), quote_plus(common.MONGO_URI))
@@ -23,15 +23,32 @@ def delete_check(id: str):
 def is_check_in_db(check: Check) -> bool:
     return bool(checks.find_one({"id": check.id}))
 
-def get_month():
+def month_start() -> datetime:
     today = datetime.today()
-    month_begin = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    print(f"Getting checks from {month_begin}")
-    query = {"date": {"$gte": month_begin}}
+    month_start = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    return month_start
+
+def day_start() -> datetime:
+    today = datetime.today()
+    day_start = today.replace(hour=0, minute=0, second=0, microsecond=0)
+    return day_start
+
+
+def get_month_checks():
+    start_date = month_start()
+    print(f"Getting checks from {start_date}")
+    query = {"date": {"$gte": start_date}}
     return checks.find(query)
 
+def get_day_checks():
+    start_date = day_start()
+    print(f"Getting checks from {start_date}")
+    query = {"date": {"$gte": start_date}}
+    return checks.find(query)
+
+
 def monthly_report() -> None:
-    cursor = get_month()
+    cursor = get_month_checks()
     out: int = 0
     counter: int = 0
     for check in cursor:
@@ -46,16 +63,8 @@ Your checks averaged {check_avg} Euro this month.
 Your expenses averaged {day_avg} Euro per day this month.'''
     print(msg)
 
-def get_day():
-    today = datetime.today()
-    day_begin = today - timedelta(days=1)
-    print(f"Getting checks from {day_begin}")
-    query = {"date": {"$gte": day_begin}}
-    return checks.find(query)
-
-
 def daily_report() -> None:
-    cursor = get_day()
+    cursor = get_day_checks()
     out: int = 0
     counter: int = 0
     for check in cursor:
