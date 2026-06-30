@@ -1,12 +1,11 @@
-import common
+import os
 import pymongo
 from check import Check
-from dotenv import get_key
 from datetime import datetime
-from urllib.parse import quote_plus
 
-dotenv_path = common.dotenv_path
-uri = "mongodb://%s:%s@%s" % (quote_plus(get_key(dotenv_path, "MONGO_USR")), quote_plus(get_key(dotenv_path, "MONGO_PWD")), quote_plus(common.MONGO_URI))
+db_user = os.getenv("MONGO_USR")
+db_pass = os.getenv("MONGO_PWD")
+uri = f"mongodb://{db_user}:{db_pass}@mongodb:27017"
 dbclient = pymongo.MongoClient(uri)
 db = dbclient["Leo"]
 checks = db["checks"]

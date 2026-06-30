@@ -3,12 +3,27 @@ services:
     image: mongo:8.0.6
     volumes:
       - type: bind
-        source: ./data
+        # ToDo: fix: hardcode for omniserv deploy: ~/omni/omniscient/data
+        source: ./data # am I autistic wtf
         target: /data/db
-    env_file:
-      - ".env"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USR}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PWD}
     ports:
-      - "27017:27017"
+      - "27017:27017" # Leave ports for manual intervention
+    networks:
+      - omniserv-net
+
+  omniscient:
+    build: .
+    environment:
+      - MONGO_USR=${MONGO_USR}
+      - MONGO_PWD=${MONGO_PWD}
+    ports:
+      - "5003:5003"
+    networks:
+      - omniserv-net
+
+networks:
+  omniserv-net:
+    external: true
