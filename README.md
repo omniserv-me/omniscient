@@ -1,2 +1,3 @@
-### This repo is DEPRECATED, see omniserv for current development
+### This repo is DEPRECATED. Refer to omniserv for current development
+
 Part of Omniserv
