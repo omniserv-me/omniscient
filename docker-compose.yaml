@@ -4,7 +4,7 @@ services:
     volumes:
       - type: bind
         # ToDo: fix: hardcode for omniserv deploy: ~/omni/omniscient/data
-        source: ./data # am I autistic wtf
+        source: ${DATA_DIR} # am I autistic wtf
         target: /data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USR}

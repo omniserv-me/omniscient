@@ -22,3 +22,4 @@ jobs:
         env:
           MONGO_USR: ${{ secrets.MONGO_USR }}
           MONGO_PWD: ${{ secrets.MONGO_PWD }}
+          DATA_DIR:  ${{ secrets.DATA_DIR  }}
