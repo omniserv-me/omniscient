@@ -68,7 +68,7 @@ def runApi():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=3))
     omniscient_pb2_grpc.add_AddPaymentServicer_to_server(AddPaymentServicer(), server)
     omniscient_pb2_grpc.add_QueryServicer_to_server(QueryServicer(), server)
-    server.add_insecure_port("127.0.0.1:5003")
+    server.add_insecure_port("0.0.0.0:5003")
     # doesnt block
     server.start()
     # this thread doesnt really have anything left to do so we block it
